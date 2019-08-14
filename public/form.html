@@ -1,0 +1,22 @@
+<html>
+    <body>
+        <div>
+            Create a user by filling out the fields below:
+            <hr/>
+            <form action="/api/user_create" method="POST">
+                <input placeholder="First name" name="create_first_name"/>
+                <br>
+                <input placeholder="Second name" name="create_second_name"/>
+                <br>
+                <input placeholder="Email ID" name="create_email_id"/>
+                <br>
+                <select placeholder="Type" name="create_type" size="2" multiple>
+                    <option value="teacher">Teacher</option>
+                    <option value="student">Student</option>
+                </select>               
+                <br> 
+                <button>Submit</button>
+            </form>
+        </div>
+    </body>
+</html>

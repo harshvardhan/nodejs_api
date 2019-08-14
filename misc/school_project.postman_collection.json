@@ -1,0 +1,224 @@
+{
+	"info": {
+		"_postman_id": "6c8f9b53-85c7-4a03-9c16-4efc1ff559a0",
+		"name": "school_project",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "registerstudents",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"teacher\": \"Tom@gmail.com\",\n  \"students\":\n    [\n\t\t\"May@gmail.com\",\n      \"jerry@gmail.com\",\n      \"Kestov@gmail.com\",\n      \"hdjh@kd.com\"\n    ]\n}\n"
+				},
+				"url": {
+					"raw": "127.0.0.1:3003/api/register",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "3003",
+					"path": [
+						"api",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "suspendstudent",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"student\" : \"jerry@gmail.com\"\n}"
+				},
+				"url": {
+					"raw": "127.0.0.1:3003/api/suspend",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "3003",
+					"path": [
+						"api",
+						"suspend"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "retrievefornotifications",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"teacher\":  \"gerrad@gmail.com\",\n  \"notification\": \"Hello students! @Piniyara@gmail.com @Mustafa@gmail.com\"\n}"
+				},
+				"url": {
+					"raw": "127.0.0.1:3003/api/retrievefornotifications",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "3003",
+					"path": [
+						"api",
+						"retrievefornotifications"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "commonstudents",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "127.0.0.1:3003/api/commonstudents?teacher=Tom%40gmail.com&teacher=gerrad%40gmail.com",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "3003",
+					"path": [
+						"api",
+						"commonstudents"
+					],
+					"query": [
+						{
+							"key": "teacher",
+							"value": "Tom%40gmail.com"
+						},
+						{
+							"key": "teacher",
+							"value": "gerrad%40gmail.com"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getUser",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "127.0.0.1:3003/api/user/Tom@gmail.com",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "3003",
+					"path": [
+						"api",
+						"user",
+						"Tom@gmail.com"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getAllUsers",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "127.0.0.1:3003/api/users",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "3003",
+					"path": [
+						"api",
+						"users"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
