@@ -1,6 +1,13 @@
 # Node.js API Starter Kit
 
-This Rest API is made with Express.js framework. This set of APIs allow to do some admin related tasks like following.
+This Rest API is made with Express.js framework. This project works in context of a school where teachers and students are the users and there are few admin tasks thata can be performed using the APIs.
+This set of APIs allow to do some admin related tasks like following:
+* Create User with a HTML form.
+* Get all users or a user by email id.
+* Associate a student with teacher.
+* Mark a student suspended for a teacher.
+* Find Common students for given set of techers.
+* Send notifications to students of the given teachers and students mentioned with @ annotation in the message string.
 
 ## APIs
 * user_create - This API creats a user in the system. A form can also be used in enter users from /form.html.
