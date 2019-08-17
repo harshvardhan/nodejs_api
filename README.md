@@ -1,13 +1,13 @@
-# Node.js API Starter Kit
+# School Project - Node.js API - Starter Kit
 
-This Rest API is made with Express.js framework. This project works in context of a school where teachers and students are the users and there are few admin tasks thata can be performed using the APIs.
+This Rest API is made with Express.js framework. This project works in context of a school where teachers and students are the users and there are few admin tasks that can be performed using the APIs.
 This set of APIs allow to do some admin related tasks like following:
 * Create User with a HTML form.
 * Get all users or a user by email id.
 * Associate a student with teacher.
-* Mark a student suspended for a teacher.
-* Find Common students for given set of techers.
-* Send notifications to students of the given teachers and students mentioned with @ annotation in the message string.
+* Mark a student suspended.
+* Find Common students for given set of teachers.
+* Get list of students of the given teacher and students mentioned with @ annotation in the message string for sending notifications.
 
 ## APIs
 * user_create - This API creats a user in the system. A form can also be used in enter users from /form.html.
@@ -42,18 +42,16 @@ Register Object
 ```
 
 ## How to setup
-1) Use the db dump file to get db filefrim misc folder misc/db_backup.sql
-2) Import the postman file using the misc/school_project.postman_collection.json
-3) Use Postman to permform admin functions using these APIs
-4) Start the node.js app using node app.js command
-5) After this API server must become available at [http://localhost:3003/](http://localhost:3003/).
+* Use the db dump file to get db file from misc folder misc/db_backup.sql
+* Import the postman file using the misc/school_project.postman_collection.json
+* Start the app using node app.js command
+* After this API server must become available at [http://localhost:3003/](http://localhost:3003/).
+* Use Postman to permform admin functions using these APIs
 
 ## Unit Test
-Unit test cases have been written using moacha framework. To run the unit test cases
+Unit test cases have been written using moacha framework with supertest and should. To run the unit test cases
 * Start the node.js app using node app.js.
 * Then run mocha command on terminal.
 
 ## Known Issues
-1) commonstudents API is not returning the desired result (WIP).
-2) More test cases should be written to check the roboustness of the API.
-3) Test cases for commonstudents still to be made.
+* More test cases should be written to check the roboustness of the API.
