@@ -29,7 +29,7 @@ CREATE TABLE `register` (
   `valid` tinyint(1) DEFAULT '1',
   PRIMARY KEY (`id`),
   UNIQUE KEY `register` (`teacher_email`,`student_email`)
-) ENGINE=InnoDB AUTO_INCREMENT=107 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=128 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -38,7 +38,7 @@ CREATE TABLE `register` (
 
 LOCK TABLES `register` WRITE;
 /*!40000 ALTER TABLE `register` DISABLE KEYS */;
-INSERT INTO `register` VALUES (41,'Tom@gmail.com','May@gmail.com',1),(42,'Tom@gmail.com','jerry@gmail.com',1),(43,'Tom@gmail.com','Kestov@gmail.com',1),(44,'Tom@gmail.com','hdjh@kd.com',1),(58,'larry@gmail.com','jerry@gmail.com',1),(59,'gerrad@gmail.com','jerry@gmail.com',1),(60,'gerrad@gmail.com','Kestov@gmail.com',1),(61,'gerrad@gmail.com','Katrin@gmail.com',1),(62,'gerrad@gmail.com','Piniyara@gmail.com',1),(63,'gerrad@gmail.com','Ritz@gmail.com',1),(64,'gerrad@gmail.com','Taz@gmail.com',1),(65,'gerrad@gmail.com','Fensuk@gmail.com',1),(66,'gerrad@gmail.com','Joe@gmail.com',1),(67,'gerrad@gmail.com','Mustafa@gmail.com',1),(69,'Tom@gmail.com','Fensuk@gmail.com',1),(70,'Tom@gmail.com','Taz@gmail.com',1);
+INSERT INTO `register` VALUES (41,'Tom@gmail.com','May@gmail.com',1),(42,'Tom@gmail.com','jerry@gmail.com',1),(43,'Tom@gmail.com','Kestov@gmail.com',1),(44,'Tom@gmail.com','hdjh@kd.com',1),(58,'larry@gmail.com','jerry@gmail.com',1),(59,'gerrad@gmail.com','jerry@gmail.com',1),(60,'gerrad@gmail.com','Kestov@gmail.com',1),(61,'gerrad@gmail.com','Katrin@gmail.com',1),(62,'gerrad@gmail.com','Piniyara@gmail.com',1),(63,'gerrad@gmail.com','Ritz@gmail.com',1),(64,'gerrad@gmail.com','Taz@gmail.com',1),(65,'gerrad@gmail.com','Fensuk@gmail.com',1),(66,'gerrad@gmail.com','Joe@gmail.com',0),(67,'gerrad@gmail.com','Mustafa@gmail.com',1),(69,'Tom@gmail.com','Fensuk@gmail.com',1),(70,'Tom@gmail.com','Taz@gmail.com',1);
 /*!40000 ALTER TABLE `register` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -57,7 +57,7 @@ CREATE TABLE `users` (
   `type` varchar(255) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `users` (`email_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -66,7 +66,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'Tom','B. Erichsen','Tom@gmail.com','teacher'),(2,'Jerry','C. Erichdad','jerry@gmail.com','student'),(3,'Larry','Page','larry@gmail.com','teacher'),(4,'Kestov','Nova','Kestov@gmail.com','student'),(5,'Gerrad','Butler','gerrad@gmail.com','teacher'),(6,'Katrin','Korna','Katrin@gmail.com','student'),(7,'Taz','Jared','Taz@gmail.com','student'),(8,'Ritz','Barlord','Ritz@gmail.com','student'),(9,'Piniyara','Laztory','Piniyara@gmail.com','student'),(10,'Fensuk','Wangdu','Fensuk@gmail.com','student'),(11,'Joe','Burns','Joe@gmail.com','student'),(12,'Mustafa','Naz','Mustafa@gmail.com','student'),(13,'Patrik','Lauzart','patrik@gmail.com','teacher'),(14,'May','Joe','May@gmail.com','student'),(15,'Harsh','Vardhan','harsh.020688@gmail.com','student');
+INSERT INTO `users` VALUES (1,'Tom','B. Erichsen','Tom@gmail.com','teacher'),(2,'Jerry','C. Erichdad','jerry@gmail.com','student'),(3,'Larry','Page','larry@gmail.com','teacher'),(4,'Kestov','Nova','Kestov@gmail.com','student'),(5,'Gerrad','Butler','gerrad@gmail.com','teacher'),(6,'Katrin','Korna','Katrin@gmail.com','student'),(7,'Taz','Jared','Taz@gmail.com','student'),(8,'Ritz','Barlord','Ritz@gmail.com','student'),(9,'Piniyara','Laztory','Piniyara@gmail.com','student'),(10,'Fensuk','Wangdu','Fensuk@gmail.com','student'),(11,'Joe','Burns','Joe@gmail.com','student'),(12,'Mustafa','Naz','Mustafa@gmail.com','student'),(13,'Patrik','Lauzart','patrik@gmail.com','teacher'),(14,'May','Joe','May@gmail.com','student'),(15,'Harsh','Vardhan','harsh.020688@gmail.com','student'),(16,'Natham','Polsky','Natham@gmail.com','teacher');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -79,4 +79,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-08-14 21:07:58
+-- Dump completed on 2019-08-18  2:52:21

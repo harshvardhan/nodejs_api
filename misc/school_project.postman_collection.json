@@ -58,7 +58,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"student\" : \"jerry@gmail.com\"\n}"
+					"raw": "{\n\t\"student\": \"Joe@gmail.com\"\n}"
 				},
 				"url": {
 					"raw": "127.0.0.1:3003/api/suspend",
@@ -94,7 +94,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"teacher\":  \"gerrad@gmail.com\",\n  \"notification\": \"Hello students! @Piniyara@gmail.com @Mustafa@gmail.com\"\n}"
+					"raw": "{\n  \"teacher\":  \"larry@gmail.com\",\n  \"notification\": \"Hello students! @Piniyara@gmail.com @Mustafa@gmail.com @Fensuk@gmail.com\"\n}"
 				},
 				"url": {
 					"raw": "127.0.0.1:3003/api/retrievefornotifications",
@@ -129,7 +129,7 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "127.0.0.1:3003/api/commonstudents?teacher=Tom%40gmail.com&teacher=gerrad%40gmail.com",
+					"raw": "127.0.0.1:3003/api/commonstudents?teacher=Tom@gmail.com&teacher=larry@gmail.com",
 					"host": [
 						"127",
 						"0",
@@ -144,11 +144,16 @@
 					"query": [
 						{
 							"key": "teacher",
-							"value": "Tom%40gmail.com"
+							"value": "Tom@gmail.com"
 						},
 						{
 							"key": "teacher",
-							"value": "gerrad%40gmail.com"
+							"value": "Natham@gmail.com",
+							"disabled": true
+						},
+						{
+							"key": "teacher",
+							"value": "larry@gmail.com"
 						}
 					]
 				}
