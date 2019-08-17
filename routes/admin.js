@@ -39,7 +39,7 @@ router.post("/api/register", (req, res) => {
   }
   if (!validInput){
     console.log("Input params not valid")
-    res.status(400).send({"message": message})
+    res.status(400).json({"message": message})
     return
   }
 
@@ -52,13 +52,13 @@ router.post("/api/register", (req, res) => {
     if (err) {
         console.log("Failed to query for users: " + err)
         console.error(err);
-        res.status(500).send({"message": "Some Internal Error Occured"})
+        res.status(500).json({"message": "Some Internal Error Occured"})
         return
-      }
+    }
     if (rows === undefined || rows.length == 0) {
       // rows empty or does not exist
       console.log("No teacher found with mentioned email id: " + teacherEmail)
-      res.status(400).send({"message": "No teacher found with mentioned email id " + teacherEmail})
+      res.status(400).json({"message": "No teacher found with mentioned email id " + teacherEmail})
       return
     }
     //find if all the students are present in the users
@@ -88,30 +88,43 @@ router.post("/api/register", (req, res) => {
  * @apiParam {String} [teacher]  Email ID of Teacher.
  * 
  * @apiSuccessExample {json} Success-Response:
- *  HTTP/1.1 200 OK
- * {
- * "students" :
- *  [
- *    "commonstudent1@gmail.com",
- *    "commonstudent2@gmail.com",
- *    "student_only_under_teacher_ken@gmail.com"
- *  ]
- * }
+ *    HTTP/1.1 200 OK
+ *  {
+ *    "students" :
+ *    [
+ *      "commonstudent1@gmail.com",
+ *      "commonstudent2@gmail.com",
+ *      "student_only_under_teacher_ken@gmail.com"
+ *    ]
+ *  }
  */
 router.get("/api/commonstudents", (req, res) => {
   console.log("Trying to retrieve common students of given teachers...")
-  console.log("Teacher's email ID: " + req.query.teacher)
-  //const commonStudentsForTeachersQueryString = "SELECT * FROM register a INNER JOIN(SELECT * FROM register GROUP BY student_email WHERE teacher_email IN (?) and valid=1) b ON a.teacher_email = b.teacher_email"
-  const commonStudentsForTeachersQueryString = "SELECT a.student_email "+
-  "FROM register a, register b "+
-  "WHERE b.teacher_email=a.teacher_email "+
-  "AND "+
-  "a.teacher_email in (?) "+
-  "AND "+
-  "a.valid=? "+
-  "GROUP BY a.student_email"
+  console.log("Teacher's email IDs: " + req.query.teacher)
+  var commonStudents
+  var issueWithParams = false
+  var message = ""
+  const teacherEmailIDs = req.query.teacher
+  console.log(typeof req.query.teacher)
+  if (typeof req.query.teacher == "string") {
+    console.log("Aborting execution and sending back 400 since it takes two to tango")
+    message = "More then one teacher required to get common students"
+    issueWithParams = true
+  }
+  else if (req.query.teacher === undefined){
+    console.log("Aborting execution and sending back 400 since there are no arguments")
+    message = "No arguments provided"
+    issueWithParams = true
+  }
+  if (issueWithParams) {
+    res.status(400).json({"message": message})
+    return
+  }
+
   const connection = getConnection()
-  connection.query(commonStudentsForTeachersQueryString, [req.query.teacher, 1], (errCommonStudentTeacher, rowsCommonStudentTeacher) => {
+  console.log("teachers are : " + teacherEmailIDs)
+  const commonStudentsForTeachersQueryString = "SELECT a.student_email FROM register a JOIN register b ON a.teacher_email = b.teacher_email WHERE a.teacher_email IN (?) And a.valid=1 GROUP BY a.student_email HAVING COUNT(DISTINCT a.teacher_email)=?;"
+  connection.query(commonStudentsForTeachersQueryString, [teacherEmailIDs, teacherEmailIDs.length], (errCommonStudentTeacher, rowsCommonStudentTeacher) => {
     if (errCommonStudentTeacher) {
       console.log("Failed to query for users: " + errCommonStudentTeacher)
       console.error(errCommonStudentTeacher);
@@ -121,18 +134,17 @@ router.get("/api/commonstudents", (req, res) => {
     if (rowsCommonStudentTeacher === undefined || rowsCommonStudentTeacher.length == 0) {
       //rows empty or does not exist
       console.log("No common students")
-      res.status(404).json({"message": "No Common Students found"})
+      commonStudents = []
     }
     else{
       //common students found
       console.log("Common students Found" + rowsCommonStudentTeacher.length)
 
-      const commonStudents = rowsCommonStudentTeacher.map((commonStudent)=>{
+      commonStudents = rowsCommonStudentTeacher.map((commonStudent) => {
         return commonStudent.student_email
       })
-      
-      res.status(200).json({"students": commonStudents})
     }
+    res.status(200).json({"students": commonStudents})
   })
 })
 
@@ -150,13 +162,19 @@ router.get("/api/commonstudents", (req, res) => {
  */
 router.post("/api/suspend", (req, res) => {
   console.log("Trying to mark a student as suspended..")
-  console.log("Student's email ID: " + mysql.escape(req.body.student))
-  //Update the rows here the student_email matches the given email
+  console.log("Student's email ID: " + req.body.student)
+  //Send error and return if there is no student parameter in body
+  if (req.body.student === undefined || req.body.student.trim() === ""){
+    console.log("No student parameter provided")
+    res.status(400).json({"message" : "Email ID for student is not provided"})
+    return
+  }
+  //Update the rows where the student_email matches the given email
   //Return error if there isn't one.
   //Return bad request if there is no rows affects meaning there is no user matching given criteria
   const queryString = "UPDATE register SET valid=? where student_email=?"
   const connection = getConnection()
-  connection.query(queryString, [0, mysql.escape(req.body.student)], (err, results) => {
+  connection.query(queryString, [0, req.body.student], (err, results) => {
     console.log('Rows affected:', results.affectedRows);
     if (err) {
       console.log("Failed to query for :"+ mysql.escape(req.body.student) + " : " + err)
@@ -167,7 +185,7 @@ router.post("/api/suspend", (req, res) => {
     if (results.affectedRows === 0) {
       //rows empty or does not exist
       console.log("Student with email id " + req.body.student + " doesn't exists in the system")
-      res.status(400).json("message: No such student exists : " + req.body.student)
+      res.status(400).json({"message" : "No such student exists : " + req.body.student})
     }
     else {
       console.log("Student with email id " + req.body.student + " has been marked suspended for all teachers")
@@ -211,17 +229,17 @@ router.post("/api/retrievefornotifications", (req, res) => {
   //check validity of body params and return error if there is any discrepancy
   var validInput = true;
   var message = "";
-  if (teacherEmail == undefined || teacherEmail == ""){
+  if (teacherEmail == undefined || teacherEmail.trim() == ""){
     validInput = false;
-    message = "Teacher Email ID not present";
+    message = "Email ID for teacher is not provided";
   }
-  if (notificationMessage === undefined || notificationMessage.length == 0) {
+  if (notificationMessage === undefined || notificationMessage.trim().length == 0) {
     validInput = false;
-    message = "No Notification Message present";
+    message = "Notification message is not provided";
   }
   if (!validInput){
     console.log("Input params not valid");
-    res.status(400).send({"message": message});
+    res.status(400).json({"message": message});
     return;
   }
 
@@ -233,19 +251,19 @@ router.post("/api/retrievefornotifications", (req, res) => {
 
   //find if the teacher is present in users
   //return an error the teacher is not there in the system
-  const queryString = "SELECT * FROM users where email_id=" + mysql.escape(teacherEmail) + "limit 1";
+  const queryString = "SELECT * FROM users where email_id=" + mysql.escape(teacherEmail) + " limit 1";
   const connection = getConnection();
   var query = connection.query(queryString, (err, rows) => {
     if (err) {
         console.log("Failed to query for users: " + err)
         console.error(err);
-        res.status(500).send({"message": "Some Internal Error Occured"})
+        res.status(500).json({"message": "Some Internal Error Occured"})
         return
       }
     if (rows === undefined || rows.length == 0) {
       // rows empty or does not exist
       console.log("No teacher found with mentioned email id: " + teacherEmail)
-      res.status(400).send({"message": "No teacher found with mentioned email id " + teacherEmail})
+      res.status(400).json({"message": "No teacher found with mentioned email id " + teacherEmail})
       return
     }
     else{
@@ -254,29 +272,27 @@ router.post("/api/retrievefornotifications", (req, res) => {
       studentEmails = extractEmails(notificationMessage)
       
       if (studentEmails)
-        console.log("Student in notification :: " + studentEmails.join(","))
+        console.log("Students in notification :: " + studentEmails)
 
       const studentQueryString ="select a.student_email from register a where a.student_email in (?) and a.valid=? UNION select student_email from register where teacher_email=? and valid=?";
       var studentQuery = connection.query(studentQueryString, [studentEmails, 1, teacherEmail, 1], (errStudent, rowsStudent) => {
         if (errStudent) {
           console.log("Failed to query for users: " + errStudent)
-          console.error(errStudent);
-          res.status(500).send({"message": "Some Internal Error Occured"})
+          res.status(500).json({"message": "Some Internal Error Occured"})
           return
         }
         if (rowsStudent === undefined || rowsStudent.length == 0) {
           // rows empty or does not exist
           console.log("No Students found for this query")
-          res.status(400).send({"message": "No Students found for this query"})
+          res.status(400).json({"message": "No Students found for this query"})
           return
         }
         else{
           //students exists
-          console.log("No of Students found with email id: " + rowsStudent.length)
-          //console.log("Students found with email id: " + rowsStudent[0]["student_email"] + rowsStudent[1]["student_email"])
+          console.log("Num of Students found with email id: " + rowsStudent.length)
           validStudentEmails = rowsStudent.map((row) => {
             return row.student_email
-            })
+          })
           console.log("Valid students :: " + validStudentEmails.length)
           res.status(200).json({"recipients": validStudentEmails})
         }
