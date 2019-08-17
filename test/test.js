@@ -1,7 +1,7 @@
 var supertest = require("supertest");
 var should = require("should");
 
-// This agent refers to PORT where program is runninng.
+// This agent refers to PORT where program is running.
 
 var server = supertest.agent("http://localhost:3003");
 
@@ -14,7 +14,7 @@ describe("Home Page Access",function(){
     server
     .get("/")
     .expect("Content-type",/json/)
-    .expect(200) // THis is HTTP response
+    .expect(200)
     .end(function(err,res){
       // HTTP status should be 200
       console.log("Res Status is " + res.status);
@@ -25,16 +25,16 @@ describe("Home Page Access",function(){
 
 });
 
-describe("Get All users test",function(){
+describe("Get all users test",function(){
 
     //should return list of all users in users table
-      it("Get All users test",function(done){
+      it("Get all users test",function(done){
   
       // calling get users api
       server
       .get("/api/users")
       .expect("Content-type",/json/)
-      .expect(200) // THis is HTTP response
+      .expect(200)
       .end(function(err,res){
         // HTTP status should be 200
         console.log("Res Status is " + res.status);
@@ -66,7 +66,7 @@ describe("Get All users test",function(){
           ]
       })
       .expect("Content-type",/json/)
-      .expect(200) // THis is HTTP response
+      .expect(200)
       .end(function(err,res){
         // HTTP status should be 204
         console.log("Res Status is " + res.status);
@@ -94,7 +94,7 @@ describe("Get All users test",function(){
           ]
       })
       .expect("Content-type",/json/)
-      .expect(400) // THis is HTTP response
+      .expect(400)
       .end(function(err,res){
         // HTTP status should be 400
         console.log("Res Status is " + res.status);
@@ -121,7 +121,7 @@ describe("Get All users test",function(){
         "student" : "jerry@gmail.com"
       })
       .expect("Content-type",/json/)
-      .expect(204) // THis is HTTP response
+      .expect(204)
       .end(function(err,res){
         // HTTP status should be 204
         console.log("Res Status is " + res.status);
@@ -144,7 +144,7 @@ describe("Get All users test",function(){
         "student" : "jerry1@gmail.com"
       })
       .expect("Content-type",/json/)
-      .expect(400) // THis is HTTP response
+      .expect(400)
       .end(function(err,res){
         // HTTP status should be 400
         console.log("Res Status is " + res.status);
@@ -156,23 +156,20 @@ describe("Get All users test",function(){
 
   // UNIT test end for suspend API
 
-  // UNIT test begin for receivefornotification API
-  describe("Receive For Notification",function(){
+  // UNIT test begin for commonstudents API
+  describe("Calling Common Students API",function(){
 
     //Receive list of students given in the string for notification and 
     //are associated with the given teacher and are valid
-  
+    const ids = "teacher=Tom@gmail.com&teacher=Natham@gmail.com&teacher=larry@gmail.com"
+
     it("Receive For Notification Positive case",function(done){
   
       // calling get Receive For Notification api
       server
-      .post("/api/retrievefornotifications")
-      .send({
-        "teacher":  "gerrad@gmail.com",
-        "notification": "Hello students! @Piniyara@gmail.com @Mustafa@gmail.com"
-      })
+      .get("/api/commonstudents?" + ids)
       .expect("Content-type",/json/)
-      .expect(200) // THis is HTTP response
+      .expect(200)
       .end(function(err,res){
         // HTTP status should be 200
         console.log("Res Status is " + res.status);
@@ -182,21 +179,37 @@ describe("Get All users test",function(){
     });
   });
 
-  describe("Receive For Notification Invalid teacher email id",function(){
+  describe("Calling Common Students API with one teacher id",function(){
 
-    //Receive For Notification Invalid teacher email id
+    //Calling Common Students API with one teacher id
   
-    it("Receive For Notification Invalid teacher email id",function(done){
+    it("Calling Common Students API with one teacher id",function(done){
   
-      // calling get retrievefornotifications api
+      // calling get commonstudents api
       server
-      .post("/api/retrievefornotifications")
-      .send({
-        "teacher":  "gerrad1@gmail.com",
-        "notification": "Hello students! @Piniyara@gmail.com @Mustafa@gmail.com"
-      })
+      .get("/api/commonstudents?teacher=Tom@gmail.com")
       .expect("Content-type",/json/)
-      .expect(400) // THis is HTTP response
+      .expect(400)
+      .end(function(err,res){
+        // HTTP status should be 400
+        console.log("Res Status is " + res.status);
+        res.status.should.equal(400);
+        done();
+      });
+    });
+  });
+
+  describe("Calling Common Students API with no teacher ids",function(){
+
+    //Calling Common Students API with no teacher ids
+  
+    it("Calling Common Students API with no teacher ids",function(done){
+  
+      // calling get commonstudents api
+      server
+      .get("/api/commonstudents")
+      .expect("Content-type",/json/)
+      .expect(400)
       .end(function(err,res){
         // HTTP status should be 400
         console.log("Res Status is " + res.status);
@@ -225,7 +238,7 @@ describe("Get All users test",function(){
         "notification": "Hello students! @Piniyara@gmail.com @Mustafa@gmail.com"
       })
       .expect("Content-type",/json/)
-      .expect(200) // THis is HTTP response
+      .expect(200)
       .end(function(err,res){
         // HTTP status should be 200
         console.log("Res Status is " + res.status);
@@ -249,7 +262,7 @@ describe("Get All users test",function(){
         "notification": "Hello students! @Piniyara@gmail.com @Mustafa@gmail.com"
       })
       .expect("Content-type",/json/)
-      .expect(400) // THis is HTTP response
+      .expect(400)
       .end(function(err,res){
         // HTTP status should be 400
         console.log("Res Status is " + res.status);
